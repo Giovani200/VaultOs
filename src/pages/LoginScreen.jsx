@@ -1,5 +1,6 @@
 ﻿import React, { useState } from 'react';
 import { TOKENS, Icon, VaultMark } from '../components/ui-core';
+import { login as apiLogin } from '../api';
 
 function LoginScreen({ onLogin }) {
   const [email, setEmail] = useState('alex.morgan@vaultos.io');
@@ -11,13 +12,19 @@ function LoginScreen({ onLogin }) {
   const [code, setCode] = useState(['', '', '', '', '', '']);
   const [errorShake, setErrorShake] = useState(false);
 
-  function submitCreds(e) {
+  async function submitCreds(e) {
     e?.preventDefault();
     setLoading(true);
-    setTimeout(() => {
+    setErrorShake(false);
+    try {
+      const token = await apiLogin(email, password);
+      localStorage.setItem('token', token);
+      onLogin();
+    } catch {
       setLoading(false);
-      setStep('mfa');
-    }, 900);
+      setErrorShake(true);
+      setTimeout(() => setErrorShake(false), 600);
+    }
   }
 
   function handleCodeChange(i, v) {

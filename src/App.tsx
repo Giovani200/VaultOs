@@ -6,6 +6,12 @@ import LoginScreen from './pages/LoginScreen.jsx';
 import DashboardScreen from './pages/DashboardScreen.jsx';
 import TransferScreen from './pages/TransferScreen.jsx';
 
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const token = localStorage.getItem('token');
+  if (!token) return <Navigate to="/login" replace />;
+  return <>{children}</>;
+}
+
 export default function App() {
   const [activeNav, setActiveNav] = useState('home');
   const navigate = useNavigate();
@@ -23,20 +29,24 @@ export default function App() {
       <Route
         path="/dashboard"
         element={
-        <DashboardScreen
-          active={activeNav}
-          onNavigate={setActiveNav}
-          onTransferClick={() => navigate('/transfer')}
-        />
+          <ProtectedRoute>
+            <DashboardScreen
+              active={activeNav}
+              onNavigate={setActiveNav}
+              onTransferClick={() => navigate('/transfer')}
+            />
+          </ProtectedRoute>
         }
       />
       <Route
         path="/transfer"
         element={
-        <TransferScreen
-          onClose={() => navigate('/dashboard')}
-          onComplete={() => navigate('/dashboard')}
-        />
+          <ProtectedRoute>
+            <TransferScreen
+              onClose={() => navigate('/dashboard')}
+              onComplete={() => navigate('/dashboard')}
+            />
+          </ProtectedRoute>
         }
       />
       <Route path="/" element={<Navigate to="/login" replace />} />
