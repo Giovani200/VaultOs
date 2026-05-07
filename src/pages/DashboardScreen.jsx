@@ -1,5 +1,6 @@
-﻿import React, { useMemo, useState } from 'react';
+﻿import React, { useEffect, useMemo, useState } from 'react';
 import { TOKENS, Icon, VaultMark, INITIAL_TX } from '../components/ui-core';
+import { getDashboard } from '../api';
 
 const NAV_ITEMS = [
   { id: 'home', label: "Vue d'ensemble", icon: 'home', badge: null },
@@ -121,8 +122,7 @@ function Topbar({ onTransferClick, onOpenMenu }) {
   );
 }
 
-function BalanceHero({ visible, onToggleVisible, onTransferClick }) {
-  const balance = 284913.47;
+function BalanceHero({ visible, onToggleVisible, onTransferClick, balance = 0 }) {
   const formatted = visible
     ? balance.toLocaleString('en-EU', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
     : '••• •••.••';
@@ -258,20 +258,18 @@ function TransactionRow({ tx }) {
   );
 }
 
-function TransactionsCard() {
+function TransactionsCard({ transactions = INITIAL_TX }) {
   const [filter, setFilter] = useState('all');
   const filters = [
-    { id: 'all', label: 'Toutes', count: INITIAL_TX.length },
-    { id: 'in', label: 'Entrants', count: INITIAL_TX.filter(t => t.amount > 0).length },
-    { id: 'out', label: 'Sortants', count: INITIAL_TX.filter(t => t.amount < 0).length },
-    { id: 'subs', label: 'Abonnements', count: INITIAL_TX.filter(t => t.cat === 'Abonnements').length },
+    { id: 'all', label: 'Toutes', count: transactions.length },
+    { id: 'in', label: 'Entrants', count: transactions.filter(t => t.amount > 0).length },
+    { id: 'out', label: 'Sortants', count: transactions.filter(t => t.amount < 0).length },
   ];
   const list = useMemo(() => {
-    if (filter === 'in') return INITIAL_TX.filter(t => t.amount > 0);
-    if (filter === 'out') return INITIAL_TX.filter(t => t.amount < 0);
-    if (filter === 'subs') return INITIAL_TX.filter(t => t.cat === 'Abonnements');
-    return INITIAL_TX;
-  }, [filter]);
+    if (filter === 'in') return transactions.filter(t => t.amount > 0);
+    if (filter === 'out') return transactions.filter(t => t.amount < 0);
+    return transactions;
+  }, [filter, transactions]);
 
   return (
     <div className="card tx-card">
@@ -381,6 +379,30 @@ function UpcomingCard() {
 function DashboardScreen({ onTransferClick, onNavigate, active }) {
   const [visible, setVisible] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [balance, setBalance] = useState(0);
+  const [transactions, setTransactions] = useState([]);
+
+  useEffect(() => {
+    getDashboard()
+      .then(data => {
+        setBalance(parseFloat(data.balance));
+        setTransactions(
+          data.transactions.map(tx => ({
+            id: tx.id,
+            name: tx.label,
+            cat: tx.type === 'CREDIT' ? 'Revenus' : 'Dépense',
+            icon: tx.type === 'CREDIT' ? '↘' : '↗',
+            amount: tx.type === 'DEBIT' ? -Math.abs(parseFloat(tx.amount)) : Math.abs(parseFloat(tx.amount)),
+            date: new Date(tx.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }),
+            method: 'Virement',
+          }))
+        );
+      })
+      .catch(() => {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+      });
+  }, []);
 
   return (
     <div
@@ -420,12 +442,12 @@ function DashboardScreen({ onTransferClick, onNavigate, active }) {
             </div>
           </div>
 
-          <BalanceHero visible={visible} onToggleVisible={() => setVisible(!visible)} onTransferClick={onTransferClick} />
+          <BalanceHero visible={visible} onToggleVisible={() => setVisible(!visible)} onTransferClick={onTransferClick} balance={balance} />
 
           <ComptesStrip />
 
           <div className="dash-grid grid grid-cols-1 gap-[18px] xl:grid-cols-[1.6fr_1fr]">
-            <TransactionsCard />
+            <TransactionsCard transactions={transactions} />
             <div className="dash-grid-side">
               <CashflowCard />
               <UpcomingCard />

@@ -1,5 +1,6 @@
 ﻿import React, { useState } from 'react';
 import { Icon, VaultMark, SAVED_RECIPIENTS } from '../components/ui-core';
+import { transfer as apiTransfer } from '../api';
 
 function VirementScreen({ onClose, onComplete }) {
   const [step, setStep] = useState(1); // 1 details · 2 review · 3 success
@@ -12,6 +13,8 @@ function VirementScreen({ onClose, onComplete }) {
   const [speed, setVitesse] = useState('instant'); // instant | sepa | swift
   const [fromAccount, setDepuisAccount] = useState('operating');
   const [search, setSearch] = useState('');
+  const [transferLoading, setTransferLoading] = useState(false);
+  const [transferError, setTransferError] = useState('');
 
   const fromBalance = 284913.47;
   const numericMontant = parseFloat(amount.replace(/,/g, '')) || 0;
@@ -346,9 +349,24 @@ function VirementScreen({ onClose, onComplete }) {
                 <button className="btn-ghost w-full sm:w-auto" onClick={() => setStep(1)}>
                   <Icon name="arrowLeft" size={14} /> Modifier les details
                 </button>
-                <button className="btn-primary btn-primary--lg w-full sm:w-auto" onClick={() => setStep(3)}>
-                  Confirmer et envoyer €{numericMontant.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                  <Icon name="arrowRight" size={14} />
+                {transferError && <p style={{ color: 'red', fontSize: 13 }}>{transferError}</p>}
+                <button
+                  className="btn-primary btn-primary--lg w-full sm:w-auto"
+                  disabled={transferLoading}
+                  onClick={async () => {
+                    setTransferLoading(true);
+                    setTransferError('');
+                    try {
+                      await apiTransfer(numericMontant, iban);
+                      setStep(3);
+                    } catch (e) {
+                      setTransferError(e.message);
+                    } finally {
+                      setTransferLoading(false);
+                    }
+                  }}
+                >
+                  {transferLoading ? 'Envoi…' : <>Confirmer et envoyer €{numericMontant.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} <Icon name="arrowRight" size={14} /></>}
                 </button>
               </div>
             </div>
