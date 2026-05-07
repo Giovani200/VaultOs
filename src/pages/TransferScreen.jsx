@@ -1,41 +1,41 @@
-/* global React, TOKENS, Icon, VaultMark, SAVED_RECIPIENTS */
-const { useState, useMemo, useEffect } = React;
+﻿import React, { useState } from 'react';
+import { Icon, VaultMark, SAVED_RECIPIENTS } from '../components/ui-core';
 
-function TransferScreen({ onClose, onComplete }) {
+function VirementScreen({ onClose, onComplete }) {
   const [step, setStep] = useState(1); // 1 details · 2 review · 3 success
-  const [amount, setAmount] = useState('1250.00');
-  const [recipientId, setRecipientId] = useState('r1');
+  const [amount, setMontant] = useState('1250.00');
+  const [recipientId, setBeneficiaireId] = useState('r1');
   const [iban, setIban] = useState('PT50 0035 0000 1234 5678 9012 3');
-  const [recipientName, setRecipientName] = useState('Maria Santos');
-  const [reference, setReference] = useState('Invoice INV-2026-0412');
-  const [reason, setReason] = useState('Services');
-  const [speed, setSpeed] = useState('instant'); // instant | sepa | swift
-  const [fromAccount, setFromAccount] = useState('operating');
+  const [recipientName, setBeneficiaireName] = useState('Maria Santos');
+  const [reference, setReference] = useState('Facture INV-2026-0412');
+  const [reason, setReason] = useState('Prestations');
+  const [speed, setVitesse] = useState('instant'); // instant | sepa | swift
+  const [fromAccount, setDepuisAccount] = useState('operating');
   const [search, setSearch] = useState('');
 
   const fromBalance = 284913.47;
-  const numericAmount = parseFloat(amount.replace(/,/g, '')) || 0;
-  const remaining = fromBalance - numericAmount;
+  const numericMontant = parseFloat(amount.replace(/,/g, '')) || 0;
+  const remaining = fromBalance - numericMontant;
   const fee = speed === 'instant' ? 0 : speed === 'sepa' ? 0 : 6.50;
-  const eta = speed === 'instant' ? '~10 seconds' : speed === 'sepa' ? 'Same day · before 17:00' : '1–2 business days';
+  const eta = speed === 'instant' ? '~10 secondes' : speed === 'sepa' ? 'Le jour meme · avant 17h00' : '1 a 2 jours ouvrables';
 
-  const filteredRecipients = SAVED_RECIPIENTS.filter(r =>
+  const filteredBeneficiaires = SAVED_RECIPIENTS.filter(r =>
     !search || r.name.toLowerCase().includes(search.toLowerCase()) || r.iban.includes(search)
   );
 
-  function selectRecipient(r) {
-    setRecipientId(r.id);
+  function selectBeneficiaire(r) {
+    setBeneficiaireId(r.id);
     setIban(r.iban);
-    setRecipientName(r.name);
+    setBeneficiaireName(r.name);
   }
 
-  function handleAmountChange(v) {
+  function handleMontantChange(v) {
     // Allow digits and one decimal
     let cleaned = v.replace(/[^\d.]/g, '');
     const parts = cleaned.split('.');
     if (parts.length > 2) cleaned = parts[0] + '.' + parts.slice(1).join('');
     if (parts[1] && parts[1].length > 2) cleaned = parts[0] + '.' + parts[1].slice(0, 2);
-    setAmount(cleaned);
+    setMontant(cleaned);
   }
 
   // Format amount display
@@ -43,14 +43,14 @@ function TransferScreen({ onClose, onComplete }) {
   const wholeFmt = (parseInt(whole || '0') || 0).toLocaleString('en-US');
 
   return (
-    <div className="transfer-root" data-screen-label="03 Transfer">
+    <div className="transfer-root" data-screen-label="03 Virement">
       <header className="transfer-header">
         <button className="transfer-back" onClick={onClose}>
-          <Icon name="arrowLeft" size={15} /> Back to overview
+          <Icon name="arrowLeft" size={15} /> Retour a la vue d'ensemble
         </button>
         <div className="transfer-title-bar">
           <VaultMark size={22} />
-          <span className="transfer-title">New transfer</span>
+          <span className="transfer-title">Nouveau virement</span>
         </div>
         <div className="transfer-stepper">
           <div className={`step ${step >= 1 ? 'step--done' : ''} ${step === 1 ? 'step--current' : ''}`}>
@@ -60,12 +60,12 @@ function TransferScreen({ onClose, onComplete }) {
           <div className={`step-line ${step >= 2 ? 'step-line--done' : ''}`} />
           <div className={`step ${step >= 2 ? 'step--done' : ''} ${step === 2 ? 'step--current' : ''}`}>
             <span className="step-num">{step > 2 ? <Icon name="check" size={11} stroke={2.6} /> : '2'}</span>
-            <span>Review</span>
+            <span>Verification</span>
           </div>
           <div className={`step-line ${step >= 3 ? 'step-line--done' : ''}`} />
           <div className={`step ${step >= 3 ? 'step--done' : ''} ${step === 3 ? 'step--current' : ''}`}>
             <span className="step-num">{step > 3 ? <Icon name="check" size={11} stroke={2.6} /> : '3'}</span>
-            <span>Done</span>
+            <span>Termine</span>
           </div>
         </div>
       </header>
@@ -78,18 +78,18 @@ function TransferScreen({ onClose, onComplete }) {
               <div className="t-section">
                 <div className="t-section-head">
                   <span className="t-section-num">01</span>
-                  <span>From</span>
+                  <span>Depuis</span>
                 </div>
                 <div className="from-account">
                   <div className="from-account-main">
                     <span className="from-dot" style={{ background: '#5BC0EB' }} />
                     <div>
-                      <div className="from-name">Operating · EUR</div>
+                      <div className="from-name">Courant · EUR</div>
                       <div className="from-iban">DE89 3704 0044 0532 0130 00</div>
                     </div>
                   </div>
                   <div className="from-bal">
-                    <div className="from-bal-label">Available</div>
+                    <div className="from-bal-label">Disponible</div>
                     <div className="from-bal-amount">€284,913.47</div>
                   </div>
                   <button className="from-switch"><Icon name="chevronDown" size={14} /></button>
@@ -99,7 +99,7 @@ function TransferScreen({ onClose, onComplete }) {
               <div className="t-section">
                 <div className="t-section-head">
                   <span className="t-section-num">02</span>
-                  <span>Amount</span>
+                  <span>Montant</span>
                 </div>
 
                 <div className="amount-input-wrap">
@@ -110,21 +110,21 @@ function TransferScreen({ onClose, onComplete }) {
                     inputMode="decimal"
                     className="amount-input"
                     value={amount}
-                    onChange={e => handleAmountChange(e.target.value)}
+                    onChange={e => handleMontantChange(e.target.value)}
                     onBlur={() => {
                       const n = parseFloat(amount) || 0;
-                      setAmount(n.toFixed(2));
+                      setMontant(n.toFixed(2));
                     }}
                   />
                 </div>
 
                 <div className="amount-meta">
                   <div className="amount-meta-item">
-                    <span className="amount-meta-label">Available</span>
+                    <span className="amount-meta-label">Disponible</span>
                     <span>€{fromBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                   </div>
                   <div className="amount-meta-item">
-                    <span className="amount-meta-label">After transfer</span>
+                    <span className="amount-meta-label">Apres virement</span>
                     <span className={remaining < 0 ? 'down' : ''}>
                       €{remaining.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </span>
@@ -133,36 +133,36 @@ function TransferScreen({ onClose, onComplete }) {
 
                 <div className="amount-quick">
                   {['100', '500', '1000', '5000'].map(v => (
-                    <button key={v} className="quick-chip" onClick={() => setAmount(parseFloat(v).toFixed(2))}>
+                    <button key={v} className="quick-chip" onClick={() => setMontant(parseFloat(v).toFixed(2))}>
                       €{parseInt(v).toLocaleString('en-US')}
                     </button>
                   ))}
-                  <button className="quick-chip" onClick={() => setAmount((fromBalance / 2).toFixed(2))}>½</button>
+                  <button className="quick-chip" onClick={() => setMontant((fromBalance / 2).toFixed(2))}>½</button>
                 </div>
               </div>
 
               <div className="t-section">
                 <div className="t-section-head">
                   <span className="t-section-num">03</span>
-                  <span>Recipient</span>
-                  <button className="t-section-aux">+ New recipient</button>
+                  <span>Beneficiaire</span>
+                  <button className="t-section-aux">+ Nouveau beneficiaire</button>
                 </div>
 
                 <div className="rec-search">
                   <Icon name="search" size={14} />
                   <input
-                    placeholder="Search by name, IBAN, or company…"
+                    placeholder="Rechercher par nom, IBAN ou entreprise…"
                     value={search}
                     onChange={e => setSearch(e.target.value)}
                   />
                 </div>
 
                 <div className="rec-list">
-                  {filteredRecipients.map(r => (
+                  {filteredBeneficiaires.map(r => (
                     <button
                       key={r.id}
                       className={`rec-row ${recipientId === r.id ? 'rec-row--active' : ''}`}
-                      onClick={() => selectRecipient(r)}
+                      onClick={() => selectBeneficiaire(r)}
                     >
                       <div className="rec-avatar">{r.initials}</div>
                       <div className="rec-main">
@@ -170,7 +170,7 @@ function TransferScreen({ onClose, onComplete }) {
                         <div className="rec-iban">{r.iban}</div>
                       </div>
                       <div className="rec-last">
-                        <div className="rec-last-label">Last sent</div>
+                        <div className="rec-last-label">Dernier envoi</div>
                         <div className="rec-last-amount">{r.last}</div>
                       </div>
                       {recipientId === r.id && <span className="rec-check"><Icon name="check" size={11} stroke={2.6} /></span>}
@@ -182,18 +182,18 @@ function TransferScreen({ onClose, onComplete }) {
               <div className="t-section">
                 <div className="t-section-head">
                   <span className="t-section-num">04</span>
-                  <span>Speed</span>
+                  <span>Vitesse</span>
                 </div>
                 <div className="speed-grid">
                   {[
-                    { id: 'instant', label: 'Instant SEPA', eta: '~10 seconds', fee: 'Free', icon: 'zap' },
-                    { id: 'sepa', label: 'SEPA Standard', eta: 'Same day', fee: 'Free', icon: 'globe' },
-                    { id: 'swift', label: 'SWIFT', eta: '1–2 days', fee: '€6.50', icon: 'send' },
+                    { id: 'instant', label: 'SEPA instantane', eta: '~10 secondes', fee: 'Gratuit', icon: 'zap' },
+                    { id: 'sepa', label: 'SEPA Standard', eta: 'Le jour meme', fee: 'Gratuit', icon: 'globe' },
+                    { id: 'swift', label: 'SWIFT', eta: '1–2 jours', fee: '€6.50', icon: 'send' },
                   ].map(opt => (
                     <button
                       key={opt.id}
                       className={`speed-card ${speed === opt.id ? 'speed-card--active' : ''}`}
-                      onClick={() => setSpeed(opt.id)}
+                      onClick={() => setVitesse(opt.id)}
                     >
                       <div className="speed-icon"><Icon name={opt.icon} size={16} /></div>
                       <div className="speed-name">{opt.label}</div>
@@ -208,26 +208,26 @@ function TransferScreen({ onClose, onComplete }) {
               <div className="t-section">
                 <div className="t-section-head">
                   <span className="t-section-num">05</span>
-                  <span>Reference & category</span>
+                  <span>Reference et categorie</span>
                 </div>
                 <div className="t-row-2">
                   <label className="field">
-                    <span className="field-label">Reference shown to recipient</span>
+                    <span className="field-label">Reference visible par le beneficiaire</span>
                     <div className="field-input">
                       <input value={reference} onChange={e => setReference(e.target.value)} maxLength={140} />
                       <span className="field-suffix field-suffix--count">{reference.length}/140</span>
                     </div>
                   </label>
                   <label className="field">
-                    <span className="field-label">Category (internal)</span>
+                    <span className="field-label">Categorie (interne)</span>
                     <div className="field-input">
                       <select value={reason} onChange={e => setReason(e.target.value)}>
-                        <option>Services</option>
-                        <option>Goods</option>
-                        <option>Payroll</option>
-                        <option>Refund</option>
-                        <option>Intra-company</option>
-                        <option>Other</option>
+                        <option>Prestations</option>
+                        <option>Biens</option>
+                        <option>Paie</option>
+                        <option>Remboursement</option>
+                        <option>Intra-entreprise</option>
+                        <option>Autre</option>
                       </select>
                       <span className="field-suffix"><Icon name="chevronDown" size={13} /></span>
                     </div>
@@ -239,34 +239,34 @@ function TransferScreen({ onClose, onComplete }) {
             {/* Right: summary */}
             <aside className="transfer-summary">
               <div className="summary-head">
-                <div className="summary-eyebrow">Transfer summary</div>
+                <div className="summary-eyebrow">Resume du virement</div>
                 <div className="summary-amount">
                   <span className="summary-cur">€</span>
                   <span className="summary-whole">{wholeFmt}</span>
                   <span className="summary-cents">.{cents || '00'}</span>
                 </div>
                 <div className="summary-to">
-                  to <b>{recipientName}</b>
+                  vers <b>{recipientName}</b>
                 </div>
               </div>
 
               <div className="summary-line">
-                <span>From</span><span>Operating · EUR</span>
+                <span>Depuis</span><span>Courant · EUR</span>
               </div>
               <div className="summary-line">
                 <span>IBAN</span><span className="mono">{iban.slice(0, 18)}…</span>
               </div>
               <div className="summary-line">
-                <span>Method</span>
+                <span>Methode</span>
                 <span>
-                  {speed === 'instant' ? 'Instant SEPA' : speed === 'sepa' ? 'SEPA Standard' : 'SWIFT'}
+                  {speed === 'instant' ? 'SEPA Instantane' : speed === 'sepa' ? 'SEPA Standard' : 'SWIFT'}
                 </span>
               </div>
               <div className="summary-line">
-                <span>Arrives</span><span>{eta}</span>
+                <span>Delai</span><span>{eta}</span>
               </div>
               <div className="summary-line">
-                <span>Fee</span><span>{fee === 0 ? 'Free' : `€${fee.toFixed(2)}`}</span>
+                <span>Frais</span><span>{fee === 0 ? 'Gratuit' : `€${fee.toFixed(2)}`}</span>
               </div>
               <div className="summary-line">
                 <span>Reference</span><span className="summary-truncate">{reference}</span>
@@ -275,20 +275,20 @@ function TransferScreen({ onClose, onComplete }) {
               <div className="summary-divider" />
 
               <div className="summary-total">
-                <span>Total debited</span>
-                <span>€{(numericAmount + fee).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                <span>Total debite</span>
+                <span>€{(numericMontant + fee).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
               </div>
 
               <div className="summary-trust">
                 <Icon name="shield" size={13} />
-                <span>Funds segregated at BNP Paribas DE. Reversible within 10 minutes.</span>
+                <span>Fonds separes chez BNP Paribas DE. Annulable sous 10 minutes.</span>
               </div>
 
-              <button className="btn-primary btn-primary--full" onClick={() => setStep(2)} disabled={numericAmount <= 0}>
-                Review transfer <Icon name="arrowRight" size={14} />
+              <button className="btn-primary btn-primary--full" onClick={() => setStep(2)} disabled={numericMontant <= 0}>
+                Verifier le virement <Icon name="arrowRight" size={14} />
               </button>
               <button className="btn-ghost btn-ghost--full" onClick={onClose}>
-                Save as draft
+                Enregistrer en brouillon
               </button>
             </aside>
           </div>
@@ -298,27 +298,27 @@ function TransferScreen({ onClose, onComplete }) {
           <div className="review-wrap">
             <div className="review-card">
               <div className="review-head">
-                <div className="review-eyebrow">Final review</div>
-                <h2>You're sending</h2>
+                <div className="review-eyebrow">Verification finale</div>
+                <h2>Vous envoyez</h2>
                 <div className="review-amount">
                   <span>€</span>{wholeFmt}<span className="review-cents">.{cents || '00'}</span>
                 </div>
                 <div className="review-to">
-                  to <b>{recipientName}</b> · {speed === 'instant' ? 'Instant · arrives in ~10s' : eta}
+                  vers <b>{recipientName}</b> · {speed === 'instant' ? 'Instantane · arrive en ~10 s' : eta}
                 </div>
               </div>
 
               <div className="review-grid">
                 <div className="review-item">
-                  <div className="review-label">From</div>
+                  <div className="review-label">Depuis</div>
                   <div className="review-value">
                     <span className="from-dot" style={{ background: '#5BC0EB' }} />
-                    Operating · EUR
+                    Courant · EUR
                   </div>
                   <div className="review-sub">DE89 3704 0044 0532 0130 00</div>
                 </div>
                 <div className="review-item">
-                  <div className="review-label">To</div>
+                  <div className="review-label">Vers</div>
                   <div className="review-value">
                     <span className="rec-avatar rec-avatar--sm">MS</span>
                     {recipientName}
@@ -328,26 +328,26 @@ function TransferScreen({ onClose, onComplete }) {
                 <div className="review-item">
                   <div className="review-label">Reference</div>
                   <div className="review-value">{reference}</div>
-                  <div className="review-sub">Visible to recipient · Category: {reason}</div>
+                  <div className="review-sub">Visible pour le beneficiaire · Categorie : {reason}</div>
                 </div>
                 <div className="review-item">
                   <div className="review-label">Total</div>
-                  <div className="review-value">€{(numericAmount + fee).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                  <div className="review-sub">Amount €{numericAmount.toFixed(2)} + fee {fee === 0 ? 'Free' : `€${fee.toFixed(2)}`}</div>
+                  <div className="review-value">€{(numericMontant + fee).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                  <div className="review-sub">Montant €{numericMontant.toFixed(2)} + frais {fee === 0 ? 'Gratuit' : `€${fee.toFixed(2)}`}</div>
                 </div>
               </div>
 
               <div className="review-confirm">
                 <Icon name="lock" size={14} />
-                <span>Confirming will request a tap on your <b>YubiKey · slot 1</b>.</span>
+                <span>La confirmation demandera un appui sur votre <b>YubiKey · slot 1</b>.</span>
               </div>
 
               <div className="review-actions">
                 <button className="btn-ghost" onClick={() => setStep(1)}>
-                  <Icon name="arrowLeft" size={14} /> Edit details
+                  <Icon name="arrowLeft" size={14} /> Modifier les details
                 </button>
                 <button className="btn-primary btn-primary--lg" onClick={() => setStep(3)}>
-                  Confirm & send €{numericAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  Confirmer et envoyer €{numericMontant.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   <Icon name="arrowRight" size={14} />
                 </button>
               </div>
@@ -366,46 +366,46 @@ function TransferScreen({ onClose, onComplete }) {
               </div>
 
               <div className="success-amount">
-                €{numericAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} <span>sent</span>
+                €{numericMontant.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} <span>envoye</span>
               </div>
               <p className="success-sub">
-                <b>{recipientName}</b> will see the funds in <b>~10 seconds</b>.
+                <b>{recipientName}</b> recevra les fonds sous <b>~10 secondes</b>.
                 Reference VLT-{Math.floor(Math.random() * 900000 + 100000)}.
               </p>
 
               <div className="success-tracker">
                 <div className="track-step track-step--done">
                   <span className="track-dot"><Icon name="check" size={10} stroke={2.6} /></span>
-                  <span>Authorized</span>
+                  <span>Autorise</span>
                 </div>
                 <div className="track-line track-line--done" />
                 <div className="track-step track-step--done">
                   <span className="track-dot"><Icon name="check" size={10} stroke={2.6} /></span>
-                  <span>Cleared at VaultOs</span>
+                  <span>Valide par VaultOs</span>
                 </div>
                 <div className="track-line track-line--active" />
                 <div className="track-step track-step--active">
                   <span className="track-dot track-dot--pulse" />
-                  <span>SEPA Instant rail</span>
+                  <span>Reseau SEPA instantane</span>
                 </div>
                 <div className="track-line" />
                 <div className="track-step">
                   <span className="track-dot" />
-                  <span>Recipient bank</span>
+                  <span>Banque du beneficiaire</span>
                 </div>
               </div>
 
               <div className="success-actions">
                 <button className="btn-ghost" onClick={() => { setStep(1); }}>
-                  Send another
+                  Envoyer un autre
                 </button>
                 <button className="btn-primary" onClick={onComplete}>
-                  Back to overview <Icon name="arrowRight" size={14} />
+                  Retour a la vue d'ensemble <Icon name="arrowRight" size={14} />
                 </button>
               </div>
 
               <button className="success-receipt">
-                <Icon name="download" size={13} /> Download receipt (PDF)
+                <Icon name="download" size={13} /> Telecharger le recu (PDF)
               </button>
             </div>
           </div>
@@ -415,4 +415,5 @@ function TransferScreen({ onClose, onComplete }) {
   );
 }
 
-window.TransferScreen = TransferScreen;
+export default VirementScreen;
+

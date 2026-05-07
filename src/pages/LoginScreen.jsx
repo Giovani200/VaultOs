@@ -1,5 +1,5 @@
-/* global React, TOKENS, Icon, VaultMark */
-const { useState, useEffect } = React;
+﻿import React, { useState } from 'react';
+import { TOKENS, Icon, VaultMark } from '../components/ui-core';
 
 function LoginScreen({ onLogin }) {
   const [email, setEmail] = useState('alex.morgan@vaultos.io');
@@ -51,30 +51,30 @@ function LoginScreen({ onLogin }) {
             <VaultMark size={32} />
             <span className="brand-name">VaultOs</span>
           </div>
-          <div className="brand-pill"><Icon name="globe" size={13} /> EU · Frankfurt</div>
+          <div className="brand-pill"><Icon name="globe" size={13} /> UE · Francfort</div>
         </div>
 
         <div className="brand-mid">
-          <div className="brand-eyebrow">— Treasury, simplified</div>
+          <div className="brand-eyebrow">— La tresorerie, en plus simple</div>
           <h1 className="brand-headline">
-            Move money like<br />
-            <span className="brand-headline-accent">software ships.</span>
+            Pilotez vos paiements<br />
+            <span className="brand-headline-accent">avec fluidite.</span>
           </h1>
           <p className="brand-sub">
-            One operating system for company cash, payments, and reconciliation.
-            Built on segregated EMI accounts in 14 jurisdictions.
+            Une seule plateforme pour gerer la tresorerie, les paiements et le rapprochement.
+            Basee sur des comptes EMI separes dans 14 juridictions.
           </p>
         </div>
 
         <div className="brand-stats">
           <div className="stat">
-            <div className="stat-num">€41.2B<span className="stat-unit">/ yr</span></div>
-            <div className="stat-label">Volume settled in 2025</div>
+            <div className="stat-num">€41.2B<span className="stat-unit">/ an</span></div>
+            <div className="stat-label">Volume regle en 2025</div>
           </div>
           <div className="stat-divider" />
           <div className="stat">
             <div className="stat-num">99.997<span className="stat-unit">%</span></div>
-            <div className="stat-label">Core ledger uptime</div>
+            <div className="stat-label">Disponibilite du registre central</div>
           </div>
           <div className="stat-divider" />
           <div className="stat">
@@ -84,8 +84,8 @@ function LoginScreen({ onLogin }) {
         </div>
 
         <div className="brand-foot">
-          <span>Authorised EMI · BaFin 154772</span>
-          <span>v4.21 · status all green</span>
+          <span>EMI agreee · BaFin 154772</span>
+          <span>v4.21 · tous les services sont operationnels</span>
         </div>
       </aside>
 
@@ -97,8 +97,8 @@ function LoginScreen({ onLogin }) {
             <span className="brand-name">VaultOs</span>
           </div>
           <div className="login-topbar-right">
-            <span className="login-topbar-text">New to VaultOs?</span>
-            <a className="login-topbar-link">Request access →</a>
+            <span className="login-topbar-text">Nouveau sur VaultOs ?</span>
+            <a className="login-topbar-link">Demander un acces</a>
           </div>
         </div>
 
@@ -106,13 +106,13 @@ function LoginScreen({ onLogin }) {
           {step === 'credentials' && (
             <div className="login-card">
               <div className="login-card-head">
-                <h2>Welcome back, Alex.</h2>
-                <p>Sign in to your treasury workspace.</p>
+                <h2>Bon retour, Alex.</h2>
+                <p>Connectez-vous a votre espace tresorerie.</p>
               </div>
 
               <form className="login-form" onSubmit={submitCreds}>
                 <label className="field">
-                  <span className="field-label">Work email</span>
+                  <span className="field-label">Email professionnel</span>
                   <div className="field-input">
                     <input
                       type="email"
@@ -127,8 +127,8 @@ function LoginScreen({ onLogin }) {
 
                 <label className="field">
                   <span className="field-label">
-                    Password
-                    <a className="field-aux">Forgot?</a>
+                    Mot de passe
+                    <a className="field-aux">Oublie ?</a>
                   </span>
                   <div className="field-input">
                     <input
@@ -148,22 +148,22 @@ function LoginScreen({ onLogin }) {
                   <label className="check">
                     <input type="checkbox" checked={remember} onChange={e => setRemember(e.target.checked)} />
                     <span className="check-box"><Icon name="check" size={11} stroke={2.4} /></span>
-                    <span>Trust this device for 30 days</span>
+                    <span>Faire confiance a cet appareil pendant 30 jours</span>
                   </label>
                 </div>
 
                 <button type="submit" className={`btn-primary ${loading ? 'btn-loading' : ''}`} disabled={loading}>
-                  {loading ? <span className="spinner" /> : <>Continue <Icon name="arrowRight" size={15} /></>}
+                  {loading ? <span className="spinner" /> : <>Continuer <Icon name="arrowRight" size={15} /></>}
                 </button>
 
-                <div className="login-divider"><span>or</span></div>
+                <div className="login-divider"><span>ou</span></div>
 
                 <div className="login-alts">
                   <button type="button" className="btn-ghost">
-                    <Icon name="fingerprint" size={16} /> Passkey
+                    <Icon name="fingerprint" size={16} /> Cle d'acces
                   </button>
                   <button type="button" className="btn-ghost">
-                    <span className="sso-mark">SSO</span> Single sign-on
+                    <span className="sso-mark">SSO</span> Authentification unique
                   </button>
                 </div>
               </form>
@@ -173,12 +173,12 @@ function LoginScreen({ onLogin }) {
           {step === 'mfa' && (
             <div className="login-card">
               <button className="login-back" onClick={() => { setStep('credentials'); setCode(['','','','','','']); }}>
-                <Icon name="arrowLeft" size={14} /> Back
+                <Icon name="arrowLeft" size={14} /> Retour
               </button>
               <div className="login-card-head">
                 <div className="mfa-badge"><Icon name="shield" size={18} /></div>
-                <h2>Two-step verification</h2>
-                <p>Enter the 6-digit code from your authenticator app for <b>{email}</b>.</p>
+                <h2>Verification en deux etapes</h2>
+                <p>Saisissez le code a 6 chiffres de votre application d'authentification pour <b>{email}</b>.</p>
               </div>
 
               <div className="mfa-code">
@@ -198,25 +198,25 @@ function LoginScreen({ onLogin }) {
               </div>
 
               <div className="mfa-foot">
-                <a className="field-aux">Use a recovery key instead</a>
-                <span className="mfa-timer">Resend in 0:42</span>
+                <a className="field-aux">Utiliser une cle de recuperation</a>
+                <span className="mfa-timer">Renvoyer dans 0:42</span>
               </div>
 
               {loading && (
-                <div className="mfa-verify"><span className="spinner spinner--dark" /> Verifying…</div>
+                <div className="mfa-verify"><span className="spinner spinner--dark" /> Verification…</div>
               )}
             </div>
           )}
 
           <div className="login-trust">
-            <Icon name="lock" size={12} /> 256-bit TLS · Hardware-key sessions · Independent custody
+            <Icon name="lock" size={12} /> TLS 256 bits · Sessions protegees par cle physique · Conservation separee
           </div>
         </div>
 
         <div className="login-foot">
           <div>© 2026 VaultOs Operations GmbH</div>
           <div className="login-foot-links">
-            <a>Privacy</a><a>Terms</a><a>Status</a><a>Docs</a>
+            <a>Confidentialite</a><a>Conditions</a><a>Statut</a><a>Documentation</a>
           </div>
         </div>
       </main>
@@ -224,4 +224,5 @@ function LoginScreen({ onLogin }) {
   );
 }
 
-window.LoginScreen = LoginScreen;
+export default LoginScreen;
+

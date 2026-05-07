@@ -727,9 +727,9 @@ input, select { font-family: inherit; color: inherit; border: none; outline: non
   font-size: 16px;
   color: #001A2C;
 }
-.tx-icon[data-cat="Income"], .tx-icon[data-cat="Refund"] { background: rgba(31,187,166,0.12); color: #1FBBA6; }
-.tx-icon[data-cat="Subscriptions"] { background: rgba(167,139,250,0.14); color: #7C5BE0; }
-.tx-icon[data-cat="Food & Drink"] { background: rgba(245,165,36,0.14); color: #C77B00; }
+.tx-icon[data-cat="Revenus"], .tx-icon[data-cat="Remboursement"] { background: rgba(31,187,166,0.12); color: #1FBBA6; }
+.tx-icon[data-cat="Abonnements"] { background: rgba(167,139,250,0.14); color: #7C5BE0; }
+.tx-icon[data-cat="Nourriture & Boissons"] { background: rgba(245,165,36,0.14); color: #C77B00; }
 .tx-icon[data-cat="Transport"] { background: rgba(91,192,235,0.14); color: #2A8AB6; }
 
 .tx-name { font-size: 13.5px; font-weight: 500; color: #001A2C; }
