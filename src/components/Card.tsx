@@ -1,18 +1,20 @@
+import type { ReactNode } from 'react';
+
 interface CardProps {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
   title?: string;
   variant?: 'default' | 'gradient' | 'outlined';
 }
 
-export default function Card({ 
-  children, 
-  className = '', 
+export default function Card({
+  children,
+  className = '',
   title,
-  variant = 'default'
+  variant = 'default',
 }: CardProps) {
   const baseStyles = 'rounded-lg shadow-md p-6 transition-all duration-200 hover:shadow-lg';
-  
+
   const variantStyles = {
     default: 'bg-white',
     gradient: 'bg-gradient-to-br from-blue-600 to-blue-700 text-white',

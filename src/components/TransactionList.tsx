@@ -8,7 +8,7 @@ interface TransactionItemProps {
 function TransactionItem({ transaction }: TransactionItemProps) {
   const isExpense = transaction.type === 'expense';
   const isIncome = transaction.type === 'income';
-  
+
   const getIcon = () => {
     switch (transaction.type) {
       case 'expense':
@@ -47,20 +47,22 @@ function TransactionItem({ transaction }: TransactionItemProps) {
         <div className="flex-1">
           <p className="font-semibold text-gray-900">{transaction.description}</p>
           <p className="text-sm text-gray-500">
-            {transaction.date.toLocaleDateString('fr-FR', { 
-              year: 'numeric', 
-              month: 'long', 
-              day: 'numeric' 
+            {transaction.date.toLocaleDateString('fr-FR', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
             })}
           </p>
         </div>
       </div>
       <div className="text-right">
         <p className={`font-bold text-lg ${getAmountColor()}`}>
-          {getAmountSign()}{transaction.amount.toLocaleString('fr-FR', {
+          {getAmountSign()}
+          {transaction.amount.toLocaleString('fr-FR', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
-          })}€
+          })}
+          €
         </p>
         <p className="text-xs text-gray-500">{transaction.category}</p>
       </div>
@@ -74,11 +76,7 @@ interface TransactionListProps {
   limit?: number;
 }
 
-export default function TransactionList({ 
-  transactions, 
-  title = 'Transactions récentes',
-  limit 
-}: TransactionListProps) {
+export default function TransactionList({ transactions, title = 'Transactions recentes', limit }: TransactionListProps) {
   const displayedTransactions = limit ? transactions.slice(0, limit) : transactions;
 
   return (

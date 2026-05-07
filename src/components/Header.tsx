@@ -5,7 +5,7 @@ export default function Header() {
         <h1 className="text-xl font-bold text-gray-900">Bienvenue</h1>
         <p className="text-sm text-gray-600">Giovanni Rousseau</p>
       </div>
-      
+
       <div className="flex items-center gap-4">
         <div className="text-right">
           <p className="text-sm font-semibold text-gray-900">Giovanni Rousseau</p>
