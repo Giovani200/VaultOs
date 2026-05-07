@@ -51,7 +51,7 @@ function LoginScreen({ onLogin }) {
             <VaultMark size={32} />
             <span className="brand-name">VaultOs</span>
           </div>
-          <div className="brand-pill"><Icon name="globe" size={13} /> UE · Francfort</div>
+          <div className="brand-pill"><Icon name="globe" size={13} /> UE · Paris</div>
         </div>
 
         <div className="brand-mid">
@@ -68,25 +68,11 @@ function LoginScreen({ onLogin }) {
 
         <div className="brand-stats">
           <div className="stat">
-            <div className="stat-num">€41.2B<span className="stat-unit">/ an</span></div>
-            <div className="stat-label">Volume regle en 2025</div>
-          </div>
-          <div className="stat-divider" />
-          <div className="stat">
             <div className="stat-num">99.997<span className="stat-unit">%</span></div>
             <div className="stat-label">Disponibilite du registre central</div>
           </div>
-          <div className="stat-divider" />
-          <div className="stat">
-            <div className="stat-num">SOC 2<span className="stat-unit">II</span></div>
-            <div className="stat-label">PSD2 · ISO 27001</div>
-          </div>
         </div>
 
-        <div className="brand-foot">
-          <span>EMI agreee · BaFin 154772</span>
-          <span>v4.21 · tous les services sont operationnels</span>
-        </div>
       </aside>
 
       {/* Right form */}
@@ -98,7 +84,7 @@ function LoginScreen({ onLogin }) {
           </div>
           <div className="login-topbar-right">
             <span className="login-topbar-text">Nouveau sur VaultOs ?</span>
-            <a className="login-topbar-link">Demander un acces</a>
+            <a className="login-topbar-link">S'inscrire</a>
           </div>
         </div>
 
@@ -161,9 +147,6 @@ function LoginScreen({ onLogin }) {
                 <div className="login-alts">
                   <button type="button" className="btn-ghost">
                     <Icon name="fingerprint" size={16} /> Cle d'acces
-                  </button>
-                  <button type="button" className="btn-ghost">
-                    <span className="sso-mark">SSO</span> Authentification unique
                   </button>
                 </div>
               </form>
