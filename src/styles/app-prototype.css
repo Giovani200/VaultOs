@@ -339,9 +339,11 @@ input, select { font-family: inherit; color: inherit; border: none; outline: non
   padding: 20px 14px;
   display: flex; flex-direction: column;
   gap: 22px;
-  position: sticky; top: 0;
-  height: 100vh;
-  overflow-y: auto;
+  position: relative;
+  top: 0;
+  min-height: 100%;
+  height: auto;
+  overflow-y: visible;
 }
 .sidebar-brand {
   display: flex; align-items: center; gap: 10px;
