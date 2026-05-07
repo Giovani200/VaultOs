@@ -43,16 +43,16 @@ function VirementScreen({ onClose, onComplete }) {
   const wholeFmt = (parseInt(whole || '0') || 0).toLocaleString('en-US');
 
   return (
-    <div className="transfer-root" data-screen-label="03 Virement">
-      <header className="transfer-header">
+    <div className="transfer-root min-w-0" data-screen-label="03 Virement">
+      <header className="transfer-header flex flex-wrap items-center gap-3 px-4 py-3 sm:px-6 md:px-8 lg:px-10">
         <button className="transfer-back" onClick={onClose}>
           <Icon name="arrowLeft" size={15} /> Retour a la vue d'ensemble
         </button>
-        <div className="transfer-title-bar">
+        <div className="transfer-title-bar min-w-0">
           <VaultMark size={22} />
           <span className="transfer-title">Nouveau virement</span>
         </div>
-        <div className="transfer-stepper">
+        <div className="transfer-stepper ml-auto flex min-w-0 flex-shrink flex-wrap items-center justify-end gap-2 overflow-x-auto pb-1">
           <div className={`step ${step >= 1 ? 'step--done' : ''} ${step === 1 ? 'step--current' : ''}`}>
             <span className="step-num">{step > 1 ? <Icon name="check" size={11} stroke={2.6} /> : '1'}</span>
             <span>Details</span>
@@ -70,11 +70,11 @@ function VirementScreen({ onClose, onComplete }) {
         </div>
       </header>
 
-      <div className="transfer-body">
+      <div className="transfer-body px-4 py-6 sm:px-6 md:px-8 lg:px-10">
         {step === 1 && (
-          <div className="transfer-grid">
+          <div className="transfer-grid mx-auto grid max-w-[1280px] grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
             {/* Left: form */}
-            <div className="transfer-card">
+            <div className="transfer-card w-full min-w-0 p-4 sm:px-6 sm:py-2 md:px-8">
               <div className="t-section">
                 <div className="t-section-head">
                   <span className="t-section-num">01</span>
@@ -108,7 +108,7 @@ function VirementScreen({ onClose, onComplete }) {
                   <input
                     type="text"
                     inputMode="decimal"
-                    className="amount-input"
+                    className="amount-input text-3xl sm:text-4xl md:text-5xl lg:text-[56px]"
                     value={amount}
                     onChange={e => handleMontantChange(e.target.value)}
                     onBlur={() => {
@@ -184,7 +184,7 @@ function VirementScreen({ onClose, onComplete }) {
                   <span className="t-section-num">04</span>
                   <span>Vitesse</span>
                 </div>
-                <div className="speed-grid">
+                <div className="speed-grid grid grid-cols-1 gap-2.5 sm:grid-cols-3">
                   {[
                     { id: 'instant', label: 'SEPA instantane', eta: '~10 secondes', fee: 'Gratuit', icon: 'zap' },
                     { id: 'sepa', label: 'SEPA Standard', eta: 'Le jour meme', fee: 'Gratuit', icon: 'globe' },
@@ -210,7 +210,7 @@ function VirementScreen({ onClose, onComplete }) {
                   <span className="t-section-num">05</span>
                   <span>Reference et categorie</span>
                 </div>
-                <div className="t-row-2">
+                <div className="t-row-2 grid grid-cols-1 gap-3 md:grid-cols-[1fr_220px]">
                   <label className="field">
                     <span className="field-label">Reference visible par le beneficiaire</span>
                     <div className="field-input">
@@ -237,7 +237,7 @@ function VirementScreen({ onClose, onComplete }) {
             </div>
 
             {/* Right: summary */}
-            <aside className="transfer-summary">
+            <aside className="transfer-summary w-full max-w-full shrink-0 lg:sticky lg:top-24 lg:max-w-[360px]">
               <div className="summary-head">
                 <div className="summary-eyebrow">Resume du virement</div>
                 <div className="summary-amount">
@@ -295,8 +295,8 @@ function VirementScreen({ onClose, onComplete }) {
         )}
 
         {step === 2 && (
-          <div className="review-wrap">
-            <div className="review-card">
+          <div className="review-wrap max-w-full px-1 sm:px-0">
+            <div className="review-card p-6 sm:p-8 md:p-9">
               <div className="review-head">
                 <div className="review-eyebrow">Verification finale</div>
                 <h2>Vous envoyez</h2>
@@ -308,7 +308,7 @@ function VirementScreen({ onClose, onComplete }) {
                 </div>
               </div>
 
-              <div className="review-grid">
+              <div className="review-grid grid grid-cols-1 gap-px sm:grid-cols-2">
                 <div className="review-item">
                   <div className="review-label">Depuis</div>
                   <div className="review-value">
@@ -342,11 +342,11 @@ function VirementScreen({ onClose, onComplete }) {
                 <span>La confirmation demandera un appui sur votre <b>YubiKey · slot 1</b>.</span>
               </div>
 
-              <div className="review-actions">
-                <button className="btn-ghost" onClick={() => setStep(1)}>
+              <div className="review-actions flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <button className="btn-ghost w-full sm:w-auto" onClick={() => setStep(1)}>
                   <Icon name="arrowLeft" size={14} /> Modifier les details
                 </button>
-                <button className="btn-primary btn-primary--lg" onClick={() => setStep(3)}>
+                <button className="btn-primary btn-primary--lg w-full sm:w-auto" onClick={() => setStep(3)}>
                   Confirmer et envoyer €{numericMontant.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   <Icon name="arrowRight" size={14} />
                 </button>

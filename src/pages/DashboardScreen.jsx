@@ -10,9 +10,20 @@ const NAV_ITEMS = [
   { id: 'settings', label: 'Parametres', icon: 'settings', badge: null },
 ];
 
-function Sidebar({ active, onNavigate, onTransferClick }) {
+function Sidebar({ active, onNavigate, onTransferClick, menuOpen, onCloseMenu }) {
+  const handleNav = (id) => {
+    onNavigate(id);
+    onCloseMenu?.();
+  };
+  const handleTransfer = () => {
+    onTransferClick();
+    onCloseMenu?.();
+  };
+
   return (
-    <nav className="sidebar">
+    <nav
+      className={`sidebar max-lg:fixed max-lg:inset-y-0 max-lg:left-0 max-lg:z-40 max-lg:h-screen max-lg:w-[248px] max-lg:overflow-y-auto max-lg:transition-transform max-lg:duration-200 max-lg:ease-out lg:relative ${menuOpen ? 'max-lg:translate-x-0 max-lg:shadow-2xl' : 'max-lg:-translate-x-full'}`}
+    >
       <div className="sidebar-brand">
         <VaultMark size={26} />
         <div>
@@ -27,7 +38,7 @@ function Sidebar({ active, onNavigate, onTransferClick }) {
           <button
             key={item.id}
             className={`sidebar-link ${active === item.id ? 'sidebar-link--active' : ''}`}
-            onClick={() => item.id === 'transfers' ? onTransferClick() : onNavigate(item.id)}
+            onClick={() => (item.id === 'transfers' ? handleTransfer() : handleNav(item.id))}
           >
             <span className="sidebar-link-icon"><Icon name={item.icon} size={17} /></span>
             <span className="sidebar-link-label">{item.label}</span>
@@ -79,10 +90,18 @@ function Sidebar({ active, onNavigate, onTransferClick }) {
   );
 }
 
-function Topbar({ onTransferClick }) {
+function Topbar({ onTransferClick, onOpenMenu }) {
   return (
-    <header className="topbar">
-      <div className="topbar-search">
+    <header className="topbar flex-wrap gap-y-2 px-4 py-3 sm:px-6 md:px-8 xl:px-8 xl:py-[14px]">
+      <button
+        type="button"
+        className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#E6ECF2] bg-white text-[#001A2C] lg:hidden"
+        aria-label="Ouvrir le menu"
+        onClick={onOpenMenu}
+      >
+        <Icon name="menu" size={18} />
+      </button>
+      <div className="topbar-search min-w-0 max-lg:max-w-none max-lg:flex-1 md:flex-1">
         <Icon name="search" size={15} />
         <input placeholder="Rechercher transactions, beneficiaires, IBAN…" />
         <kbd>⌘K</kbd>
@@ -119,19 +138,19 @@ function BalanceHero({ visible, onToggleVisible, onTransferClick }) {
   const fill = path + ` L 100 100 L 0 100 Z`;
 
   return (
-    <div className="hero">
+    <div className="hero px-5 py-6 sm:p-8 xl:p-[32px_36px]">
       <div className="hero-grid" />
       <div className="hero-glow" />
 
-      <div className="hero-top">
+      <div className="hero-top grid grid-cols-1 gap-8 lg:grid-cols-[1fr_280px] lg:items-end lg:gap-8">
         <div>
           <div className="hero-label">
             <span className="hero-dot" /> Compte courant · DE89 ··· 0130 00
           </div>
           <div className="hero-amount-row">
-            <span className="hero-currency">€</span>
-            <span className="hero-amount">{formatted.split('.')[0]}</span>
-            <span className="hero-cents">.{formatted.split('.')[1]}</span>
+            <span className="hero-currency text-2xl sm:text-3xl md:text-[32px] xl:text-[32px]">€</span>
+            <span className="hero-amount text-[clamp(2rem,8vw,4rem)] xl:text-[64px]">{formatted.split('.')[0]}</span>
+            <span className="hero-cents text-xl sm:text-2xl md:text-[32px] xl:text-[32px]">.{formatted.split('.')[1]}</span>
             <button className="hero-eye" onClick={onToggleVisible}>
               <Icon name={visible ? 'eye' : 'eyeOff'} size={15} />
             </button>
@@ -162,7 +181,7 @@ function BalanceHero({ visible, onToggleVisible, onTransferClick }) {
         </div>
       </div>
 
-      <div className="hero-actions">
+      <div className="hero-actions flex flex-wrap gap-2">
         <button className="hero-action hero-action--primary" onClick={onTransferClick}>
           <span className="hero-action-icon"><Icon name="send" size={16} /></span>
           <span>Envoyer de l'argent</span>
@@ -196,7 +215,7 @@ function ComptesStrip() {
     { name: 'Rendement · MMF', currency: 'EUR', symbol: '€', amount: '410,000.00', delta: '+4.10% APY', dot: TOKENS.teal, iban: 'Bloque 90 j' },
   ];
   return (
-    <div className="accounts-strip">
+    <div className="accounts-strip grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
       {accounts.map((a, i) => (
         <div key={i} className="account-card">
           <div className="account-head">
@@ -361,22 +380,41 @@ function UpcomingCard() {
 
 function DashboardScreen({ onTransferClick, onNavigate, active }) {
   const [visible, setVisible] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="dash-root" data-screen-label="02 Tableau de bord">
-      <Sidebar active={active} onNavigate={onNavigate} onTransferClick={onTransferClick} />
+    <div
+      className="dash-root grid min-h-screen grid-cols-1 bg-[#F8FAFC] lg:grid-cols-[248px_minmax(0,1fr)]"
+      data-screen-label="02 Tableau de bord"
+    >
+      {menuOpen ? (
+        <button
+          type="button"
+          className="fixed inset-0 z-30 bg-black/40 lg:hidden"
+          aria-label="Fermer le menu"
+          onClick={() => setMenuOpen(false)}
+        />
+      ) : null}
 
-      <div className="dash-main">
-        <Topbar onTransferClick={onTransferClick} />
+      <Sidebar
+        active={active}
+        onNavigate={onNavigate}
+        onTransferClick={onTransferClick}
+        menuOpen={menuOpen}
+        onCloseMenu={() => setMenuOpen(false)}
+      />
 
-        <div className="dash-content">
-          <div className="page-head">
+      <div className="dash-main min-w-0">
+        <Topbar onTransferClick={onTransferClick} onOpenMenu={() => setMenuOpen(true)} />
+
+        <div className="dash-content px-4 pb-10 pt-6 sm:px-6 md:px-8 xl:px-8 xl:pb-[60px] xl:pt-7">
+          <div className="page-head flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <div className="page-eyebrow">Mardi 7 mai · 09:24 CET</div>
               <h1 className="page-title">Bonjour, Alex.</h1>
               <p className="page-sub">La tresorerie est saine. Trois elements attendent votre validation aujourd'hui.</p>
             </div>
-            <div className="page-head-actions">
+            <div className="page-head-actions flex flex-wrap gap-2">
               <button className="chip-btn"><Icon name="info" size={13} /> Quoi de neuf ?</button>
               <button className="chip-btn chip-btn--filled"><Icon name="check" size={13} /> 3 a approuver</button>
             </div>
@@ -386,7 +424,7 @@ function DashboardScreen({ onTransferClick, onNavigate, active }) {
 
           <ComptesStrip />
 
-          <div className="dash-grid">
+          <div className="dash-grid grid grid-cols-1 gap-[18px] xl:grid-cols-[1.6fr_1fr]">
             <TransactionsCard />
             <div className="dash-grid-side">
               <CashflowCard />

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import './styles/app-prototype.css';
+import './index.css';
 import LoginScreen from './pages/LoginScreen.jsx';
 import DashboardScreen from './pages/DashboardScreen.jsx';
 import TransferScreen from './pages/TransferScreen.jsx';

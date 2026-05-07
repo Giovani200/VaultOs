@@ -41,9 +41,9 @@ function LoginScreen({ onLogin }) {
   }
 
   return (
-    <div className="login-root">
+    <div className="login-root overflow-x-hidden">
       {/* Left brand panel */}
-      <aside className="login-brand">
+      <aside className="login-brand px-6 py-10 sm:px-10 sm:py-12 xl:px-14 xl:py-12">
         <div className="brand-grain" />
         <div className="brand-glow" />
         <div className="brand-top">
@@ -56,7 +56,7 @@ function LoginScreen({ onLogin }) {
 
         <div className="brand-mid">
           <div className="brand-eyebrow">— La tresorerie, en plus simple</div>
-          <h1 className="brand-headline">
+          <h1 className="brand-headline text-3xl leading-tight sm:text-4xl md:text-5xl xl:text-[56px] xl:leading-[1.05]">
             Pilotez vos paiements<br />
             <span className="brand-headline-accent">avec fluidite.</span>
           </h1>
@@ -66,17 +66,17 @@ function LoginScreen({ onLogin }) {
           </p>
         </div>
 
-        <div className="brand-stats">
+        <div className="brand-stats mt-14 flex flex-col gap-8 xl:grid xl:grid-cols-[1fr_auto_1fr_auto_1fr] xl:items-center xl:gap-x-7 xl:gap-y-0">
           <div className="stat">
             <div className="stat-num">€41.2B<span className="stat-unit">/ an</span></div>
             <div className="stat-label">Volume regle en 2025</div>
           </div>
-          <div className="stat-divider" />
+          <div className="stat-divider hidden xl:block" />
           <div className="stat">
             <div className="stat-num">99.997<span className="stat-unit">%</span></div>
             <div className="stat-label">Disponibilite du registre central</div>
           </div>
-          <div className="stat-divider" />
+          <div className="stat-divider hidden xl:block" />
           <div className="stat">
             <div className="stat-num">SOC 2<span className="stat-unit">II</span></div>
             <div className="stat-label">PSD2 · ISO 27001</div>
@@ -90,8 +90,8 @@ function LoginScreen({ onLogin }) {
       </aside>
 
       {/* Right form */}
-      <main className="login-main">
-        <div className="login-topbar">
+      <main className="login-main px-5 py-6 sm:px-8 sm:py-8 xl:px-14 xl:py-8">
+        <div className="login-topbar flex flex-wrap items-center justify-between gap-3">
           <div className="brand-logo brand-logo--mobile">
             <VaultMark size={26} />
             <span className="brand-name">VaultOs</span>
@@ -158,7 +158,7 @@ function LoginScreen({ onLogin }) {
 
                 <div className="login-divider"><span>ou</span></div>
 
-                <div className="login-alts">
+                <div className="login-alts grid grid-cols-1 gap-2.5 sm:grid-cols-2">
                   <button type="button" className="btn-ghost">
                     <Icon name="fingerprint" size={16} /> Cle d'acces
                   </button>
@@ -181,12 +181,12 @@ function LoginScreen({ onLogin }) {
                 <p>Saisissez le code a 6 chiffres de votre application d'authentification pour <b>{email}</b>.</p>
               </div>
 
-              <div className="mfa-code">
+              <div className="mfa-code grid w-full max-w-full grid-cols-6 gap-1.5 sm:gap-2">
                 {code.map((d, i) => (
                   <input
                     key={i}
                     id={`mfa-${i}`}
-                    className="mfa-digit"
+                    className="mfa-digit min-w-0 text-base sm:text-[22px]"
                     inputMode="numeric"
                     maxLength={1}
                     value={d}
@@ -213,9 +213,9 @@ function LoginScreen({ onLogin }) {
           </div>
         </div>
 
-        <div className="login-foot">
+        <div className="login-foot flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>© 2026 VaultOs Operations GmbH</div>
-          <div className="login-foot-links">
+          <div className="login-foot-links flex flex-wrap gap-x-[18px] gap-y-2">
             <a>Confidentialite</a><a>Conditions</a><a>Statut</a><a>Documentation</a>
           </div>
         </div>

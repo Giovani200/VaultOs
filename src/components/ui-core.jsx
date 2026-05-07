@@ -75,6 +75,8 @@ export const Icon = ({ name, size = 18, stroke = 1.6, className = '' }) => {
     refresh: <><path d="M3 12a9 9 0 0 1 15-6.7L21 8" /><path d="M21 3v5h-5" /><path d="M21 12a9 9 0 0 1-15 6.7L3 16" /><path d="M3 21v-5h5" /></>,
     zap: <><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z" /></>,
     globe: <><circle cx="12" cy="12" r="10" /><path d="M2 12h20" /><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20" /></>,
+    menu: <><path d="M4 6h16M4 12h16M4 18h16" /></>,
+    close: <><path d="M18 6L6 18M6 6l12 12" /></>,
   };
   return <svg viewBox="0 0 24 24" style={s} className={className}>{paths[name]}</svg>;
 };
