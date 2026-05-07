@@ -73,23 +73,6 @@ function LoginScreen({ onLogin }) {
           </p>
         </div>
 
-        <div className="brand-stats mt-14 flex flex-col gap-8 xl:grid xl:grid-cols-[1fr_auto_1fr_auto_1fr] xl:items-center xl:gap-x-7 xl:gap-y-0">
-          <div className="stat">
-            <div className="stat-num">€41.2B<span className="stat-unit">/ an</span></div>
-            <div className="stat-label">Volume regle en 2025</div>
-          </div>
-          <div className="stat-divider hidden xl:block" />
-          <div className="stat">
-            <div className="stat-num">99.997<span className="stat-unit">%</span></div>
-            <div className="stat-label">Disponibilite du registre central</div>
-          </div>
-          <div className="stat-divider hidden xl:block" />
-          <div className="stat">
-            <div className="stat-num">SOC 2<span className="stat-unit">II</span></div>
-            <div className="stat-label">PSD2 · ISO 27001</div>
-          </div>
-        </div>
-
         <div className="brand-foot">
           <span>EMI agreee · BaFin 154772</span>
           <span>v4.21 · tous les services sont operationnels</span>
@@ -165,12 +148,9 @@ function LoginScreen({ onLogin }) {
 
                 <div className="login-divider"><span>ou</span></div>
 
-                <div className="login-alts grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+                <div className="login-alts flex justify-center">
                   <button type="button" className="btn-ghost">
                     <Icon name="fingerprint" size={16} /> Cle d'acces
-                  </button>
-                  <button type="button" className="btn-ghost">
-                    <span className="sso-mark">SSO</span> Authentification unique
                   </button>
                 </div>
               </form>
