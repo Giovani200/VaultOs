@@ -1280,3 +1280,114 @@ input, select { font-family: inherit; color: inherit; border: none; outline: non
   padding: 8px 12px;
 }
 .success-receipt:hover { color: #001A2C; }
+
+/* ============ Responsive (aligned with Tailwind sm/md/lg/xl) ============ */
+
+@media (max-width: 767px) {
+  .page-title {
+    font-size: clamp(1.375rem, 5vw, 1.75rem);
+  }
+  .page-head {
+    align-items: flex-start;
+  }
+
+  /* Transaction rows: stack meta line without horizontal overflow */
+  .tx-row {
+    grid-template-columns: 36px minmax(0, 1fr) auto;
+    grid-template-rows: auto auto;
+    column-gap: 10px;
+    row-gap: 4px;
+    align-items: start;
+  }
+  .tx-icon {
+    grid-row: 1 / span 2;
+    align-self: center;
+  }
+  .tx-main {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+  }
+  .tx-amount {
+    grid-column: 3;
+    grid-row: 1;
+    align-self: start;
+    white-space: nowrap;
+  }
+  .tx-date {
+    grid-column: 2 / 4;
+    grid-row: 2;
+    justify-self: start;
+    padding-left: 0;
+    margin-top: -2px;
+    font-size: 11px;
+  }
+
+  .tx-filters {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .bars {
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .success-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .transfer-title-bar .transfer-title {
+    font-size: 14px;
+  }
+
+  .from-account {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .amount-meta {
+    flex-wrap: wrap;
+    gap: 12px 24px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .transfer-summary {
+    position: static;
+    top: auto;
+    max-width: none;
+  }
+
+  .review-amount {
+    font-size: clamp(2rem, 12vw, 3rem);
+    word-break: break-word;
+  }
+
+  .success-tracker {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 16px;
+  }
+}
+
+@media (max-width: 639px) {
+  .hero-meta {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .legend {
+    flex-wrap: wrap;
+  }
+
+  .chip-btn,
+  .chip-btn--filled {
+    white-space: nowrap;
+  }
+}
