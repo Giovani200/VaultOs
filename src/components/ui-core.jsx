@@ -1,8 +1,6 @@
-/* global React, ReactDOM */
-const { useState, useEffect, useRef, useMemo } = React;
+﻿import React from 'react';
 
-// ============ Design tokens ============
-const TOKENS = {
+export const TOKENS = {
   navy: '#001A2C',
   navy2: '#04243C',
   navy3: '#0A2F4A',
@@ -20,28 +18,34 @@ const TOKENS = {
   amber: '#F5A524',
 };
 
-// ============ Mock data ============
-const INITIAL_TX = [
-  { id: 1, name: 'Café Lumière', cat: 'Food & Drink', icon: '☕', amount: -8.40, date: 'Today, 09:14', method: 'Card •• 4421' },
-  { id: 2, name: 'Salary — Northwind Labs', cat: 'Income', icon: '↘', amount: 4280.00, date: 'Today, 08:00', method: 'SEPA Credit' },
-  { id: 3, name: 'Spotify Family', cat: 'Subscriptions', icon: '♪', amount: -16.99, date: 'Yesterday', method: 'Card •• 4421' },
-  { id: 4, name: 'Maria Santos', cat: 'Transfer', icon: '↗', amount: -120.00, date: 'Yesterday', method: 'IBAN transfer' },
-  { id: 5, name: 'Uber', cat: 'Transport', icon: '⌖', amount: -14.20, date: 'May 4', method: 'Card •• 4421' },
-  { id: 6, name: 'Apple iCloud+', cat: 'Subscriptions', icon: '☁', amount: -2.99, date: 'May 3', method: 'Card •• 4421' },
-  { id: 7, name: 'Refund — Nordstrom', cat: 'Refund', icon: '↺', amount: 89.00, date: 'May 2', method: 'Card •• 4421' },
-  { id: 8, name: 'Trader Joe\'s', cat: 'Groceries', icon: '◫', amount: -64.18, date: 'May 1', method: 'Card •• 4421' },
+export const INITIAL_TX = [
+  { id: 1, name: 'Café Lumière', cat: 'Nourriture & Boissons', icon: '☕', amount: -8.40, date: "Aujourd'hui, 09:14", method: 'Carte •• 4421' },
+  { id: 2, name: 'Salaire — Northwind Labs', cat: 'Revenus', icon: '↘', amount: 4280.00, date: "Aujourd'hui, 08:00", method: 'Credit SEPA' },
+  { id: 3, name: 'Spotify Family', cat: 'Abonnements', icon: '♪', amount: -16.99, date: 'Hier', method: 'Carte •• 4421' },
+  { id: 4, name: 'Maria Santos', cat: 'Virement', icon: '↗', amount: -120.00, date: 'Hier', method: 'Virement IBAN' },
+  { id: 5, name: 'Uber', cat: 'Transport', icon: '⌖', amount: -14.20, date: '4 mai', method: 'Carte •• 4421' },
+  { id: 6, name: 'Apple iCloud+', cat: 'Abonnements', icon: '☁', amount: -2.99, date: '3 mai', method: 'Carte •• 4421' },
+  { id: 7, name: 'Remboursement — Nordstrom', cat: 'Remboursement', icon: '↺', amount: 89.00, date: '2 mai', method: 'Carte •• 4421' },
+  { id: 8, name: "Trader Joe's", cat: 'Courses', icon: '◫', amount: -64.18, date: '1 mai', method: 'Carte •• 4421' },
 ];
 
-const SAVED_RECIPIENTS = [
+export const SAVED_RECIPIENTS = [
   { id: 'r1', name: 'Maria Santos', iban: 'PT50 0035 0000 1234 5678 9012 3', initials: 'MS', last: '€120.00' },
   { id: 'r2', name: 'Northwind Labs', iban: 'DE89 3704 0044 0532 0130 00', initials: 'NL', last: '€2,800.00' },
   { id: 'r3', name: 'Lukas Weber', iban: 'AT61 1904 3002 3457 3201', initials: 'LW', last: '€45.00' },
   { id: 'r4', name: 'Aïcha Diop', iban: 'FR76 3000 6000 0112 3456 7890 189', initials: 'AD', last: '€220.50' },
 ];
 
-// ============ Tiny SVG icons ============
-const Icon = ({ name, size = 18, stroke = 1.6, className = '' }) => {
-  const s = { width: size, height: size, fill: 'none', stroke: 'currentColor', strokeWidth: stroke, strokeLinecap: 'round', strokeLinejoin: 'round' };
+export const Icon = ({ name, size = 18, stroke = 1.6, className = '' }) => {
+  const s = {
+    width: size,
+    height: size,
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: stroke,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+  };
   const paths = {
     home: <><path d="M3 11l9-7 9 7" /><path d="M5 10v10h14V10" /></>,
     card: <><rect x="3" y="6" width="18" height="13" rx="2" /><path d="M3 10h18" /></>,
@@ -72,13 +76,10 @@ const Icon = ({ name, size = 18, stroke = 1.6, className = '' }) => {
     zap: <><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z" /></>,
     globe: <><circle cx="12" cy="12" r="10" /><path d="M2 12h20" /><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20" /></>,
   };
-  return (
-    <svg viewBox="0 0 24 24" style={s} className={className}>{paths[name]}</svg>
-  );
+  return <svg viewBox="0 0 24 24" style={s} className={className}>{paths[name]}</svg>;
 };
 
-// ============ Vault logo mark ============
-const VaultMark = ({ size = 28, color = TOKENS.teal }) => (
+export const VaultMark = ({ size = 28, color = TOKENS.teal }) => (
   <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
     <rect x="3" y="3" width="26" height="26" rx="7" stroke={color} strokeWidth="2" />
     <circle cx="16" cy="16" r="6.5" stroke={color} strokeWidth="2" />
@@ -87,8 +88,3 @@ const VaultMark = ({ size = 28, color = TOKENS.teal }) => (
   </svg>
 );
 
-window.TOKENS = TOKENS;
-window.Icon = Icon;
-window.VaultMark = VaultMark;
-window.INITIAL_TX = INITIAL_TX;
-window.SAVED_RECIPIENTS = SAVED_RECIPIENTS;

@@ -1,13 +1,13 @@
-/* global React, TOKENS, Icon, VaultMark, INITIAL_TX */
-const { useState, useMemo } = React;
+﻿import React, { useMemo, useState } from 'react';
+import { TOKENS, Icon, VaultMark, INITIAL_TX } from '../components/ui-core';
 
 const NAV_ITEMS = [
-  { id: 'home', label: 'Overview', icon: 'home', badge: null },
-  { id: 'accounts', label: 'Accounts', icon: 'card', badge: '3' },
-  { id: 'transfers', label: 'Transfers', icon: 'send', badge: null },
-  { id: 'analytics', label: 'Analytics', icon: 'chart', badge: null },
-  { id: 'cards', label: 'Cards', icon: 'zap', badge: null },
-  { id: 'settings', label: 'Settings', icon: 'settings', badge: null },
+  { id: 'home', label: "Vue d'ensemble", icon: 'home', badge: null },
+  { id: 'accounts', label: 'Comptes', icon: 'card', badge: '3' },
+  { id: 'transfers', label: 'Virements', icon: 'send', badge: null },
+  { id: 'analytics', label: 'Analyses', icon: 'chart', badge: null },
+  { id: 'cards', label: 'Cartes', icon: 'zap', badge: null },
+  { id: 'settings', label: 'Parametres', icon: 'settings', badge: null },
 ];
 
 function Sidebar({ active, onNavigate, onTransferClick }) {
@@ -17,12 +17,12 @@ function Sidebar({ active, onNavigate, onTransferClick }) {
         <VaultMark size={26} />
         <div>
           <div className="sidebar-brand-name">VaultOs</div>
-          <div className="sidebar-brand-org">Northwind Labs · EU</div>
+          <div className="sidebar-brand-org">Northwind Labs · Europe</div>
         </div>
       </div>
 
       <div className="sidebar-section">
-        <div className="sidebar-section-label">Workspace</div>
+        <div className="sidebar-section-label">Espace de travail</div>
         {NAV_ITEMS.map(item => (
           <button
             key={item.id}
@@ -38,30 +38,30 @@ function Sidebar({ active, onNavigate, onTransferClick }) {
       </div>
 
       <div className="sidebar-section">
-        <div className="sidebar-section-label">Pinned</div>
+        <div className="sidebar-section-label">Epingles</div>
         <button className="sidebar-pin">
           <span className="sidebar-pin-dot" style={{ background: '#5BC0EB' }} />
-          Operating · EUR
+          Courant · EUR
         </button>
         <button className="sidebar-pin">
           <span className="sidebar-pin-dot" style={{ background: '#F4A261' }} />
-          Payroll · EUR
+          Paie · EUR
         </button>
         <button className="sidebar-pin">
           <span className="sidebar-pin-dot" style={{ background: '#A78BFA' }} />
-          Tax reserve · USD
+          Reserve fiscale · USD
         </button>
       </div>
 
       <div className="sidebar-card">
         <div className="sidebar-card-head">
           <Icon name="sparkle" size={14} />
-          <span>Treasury sweep</span>
+          <span>Optimisation de tresorerie</span>
         </div>
-        <p>€41,200 idle in Operating. Move to 4.1% MMF?</p>
+        <p>€41,200 sont inactifs sur le compte courant. Les placer sur un MMF a 4,1 % ?</p>
         <div className="sidebar-card-actions">
-          <button className="sidebar-card-btn">Review</button>
-          <button className="sidebar-card-dismiss">Later</button>
+          <button className="sidebar-card-btn">Verifier</button>
+          <button className="sidebar-card-dismiss">Plus tard</button>
         </div>
       </div>
 
@@ -70,7 +70,7 @@ function Sidebar({ active, onNavigate, onTransferClick }) {
           <div className="sidebar-avatar">AM</div>
           <div className="sidebar-user-meta">
             <div className="sidebar-user-name">Alex Morgan</div>
-            <div className="sidebar-user-role">Owner · Admin</div>
+            <div className="sidebar-user-role">Proprietaire · Administrateur</div>
           </div>
           <button className="sidebar-user-more"><Icon name="chevronDown" size={14} /></button>
         </div>
@@ -84,7 +84,7 @@ function Topbar({ onTransferClick }) {
     <header className="topbar">
       <div className="topbar-search">
         <Icon name="search" size={15} />
-        <input placeholder="Search transactions, recipients, IBANs…" />
+        <input placeholder="Rechercher transactions, beneficiaires, IBAN…" />
         <kbd>⌘K</kbd>
       </div>
       <div className="topbar-actions">
@@ -95,7 +95,7 @@ function Topbar({ onTransferClick }) {
         <button className="topbar-icon-btn"><Icon name="download" size={16} /></button>
         <div className="topbar-divider" />
         <button className="btn-primary btn-primary--sm" onClick={onTransferClick}>
-          <Icon name="plus" size={14} /> New transfer
+          <Icon name="plus" size={14} /> Nouveau virement
         </button>
       </div>
     </header>
@@ -126,7 +126,7 @@ function BalanceHero({ visible, onToggleVisible, onTransferClick }) {
       <div className="hero-top">
         <div>
           <div className="hero-label">
-            <span className="hero-dot" /> Operating account · DE89 ··· 0130 00
+            <span className="hero-dot" /> Compte courant · DE89 ··· 0130 00
           </div>
           <div className="hero-amount-row">
             <span className="hero-currency">€</span>
@@ -139,9 +139,9 @@ function BalanceHero({ visible, onToggleVisible, onTransferClick }) {
           <div className="hero-meta">
             <span className="hero-delta hero-delta--up">▲ €4,182.40</span>
             <span className="hero-meta-sep">·</span>
-            <span>+1.49% this month</span>
+            <span>+1,49 % ce mois-ci</span>
             <span className="hero-meta-sep">·</span>
-            <span>Updated just now</span>
+            <span>Mis a jour a l'instant</span>
           </div>
         </div>
 
@@ -157,7 +157,7 @@ function BalanceHero({ visible, onToggleVisible, onTransferClick }) {
             <path d={path} fill="none" stroke={TOKENS.teal} strokeWidth="1.4" vectorEffect="non-scaling-stroke" />
           </svg>
           <div className="hero-spark-axis">
-            <span>Apr 14</span><span>Apr 28</span><span>May 7</span>
+            <span>14 avr</span><span>28 avr</span><span>7 mai</span>
           </div>
         </div>
       </div>
@@ -165,35 +165,35 @@ function BalanceHero({ visible, onToggleVisible, onTransferClick }) {
       <div className="hero-actions">
         <button className="hero-action hero-action--primary" onClick={onTransferClick}>
           <span className="hero-action-icon"><Icon name="send" size={16} /></span>
-          <span>Send money</span>
+          <span>Envoyer de l'argent</span>
         </button>
         <button className="hero-action">
           <span className="hero-action-icon"><Icon name="arrowDown" size={16} /></span>
-          <span>Request</span>
+          <span>Demander</span>
         </button>
         <button className="hero-action">
           <span className="hero-action-icon"><Icon name="refresh" size={16} /></span>
-          <span>Convert FX</span>
+          <span>Convertir des devises</span>
         </button>
         <button className="hero-action">
           <span className="hero-action-icon"><Icon name="card" size={16} /></span>
-          <span>Issue card</span>
+          <span>Creer une carte</span>
         </button>
         <button className="hero-action hero-action--ghost">
           <span className="hero-action-icon"><Icon name="plus" size={16} /></span>
-          <span>More</span>
+          <span>Plus</span>
         </button>
       </div>
     </div>
   );
 }
 
-function AccountsStrip() {
+function ComptesStrip() {
   const accounts = [
-    { name: 'Operating', currency: 'EUR', symbol: '€', amount: '284,913.47', delta: '+1.49%', dot: '#5BC0EB', iban: 'DE89 ··· 0130' },
-    { name: 'Payroll', currency: 'EUR', symbol: '€', amount: '52,400.00', delta: '−12.20%', dot: '#F4A261', iban: 'DE89 ··· 0244' },
-    { name: 'Tax reserve', currency: 'USD', symbol: '$', amount: '118,200.00', delta: '+0.40%', dot: '#A78BFA', iban: 'US44 ··· 7702' },
-    { name: 'Yield · MMF', currency: 'EUR', symbol: '€', amount: '410,000.00', delta: '+4.10% APY', dot: TOKENS.teal, iban: 'Locked 90d' },
+    { name: 'Courant', currency: 'EUR', symbol: '€', amount: '284,913.47', delta: '+1.49%', dot: '#5BC0EB', iban: 'DE89 ··· 0130' },
+    { name: 'Paie', currency: 'EUR', symbol: '€', amount: '52,400.00', delta: '−12.20%', dot: '#F4A261', iban: 'DE89 ··· 0244' },
+    { name: 'Reserve fiscale', currency: 'USD', symbol: '$', amount: '118,200.00', delta: '+0.40%', dot: '#A78BFA', iban: 'US44 ··· 7702' },
+    { name: 'Rendement · MMF', currency: 'EUR', symbol: '€', amount: '410,000.00', delta: '+4.10% APY', dot: TOKENS.teal, iban: 'Bloque 90 j' },
   ];
   return (
     <div className="accounts-strip">
@@ -242,15 +242,15 @@ function TransactionRow({ tx }) {
 function TransactionsCard() {
   const [filter, setFilter] = useState('all');
   const filters = [
-    { id: 'all', label: 'All', count: INITIAL_TX.length },
-    { id: 'in', label: 'Incoming', count: INITIAL_TX.filter(t => t.amount > 0).length },
-    { id: 'out', label: 'Outgoing', count: INITIAL_TX.filter(t => t.amount < 0).length },
-    { id: 'subs', label: 'Subscriptions', count: INITIAL_TX.filter(t => t.cat === 'Subscriptions').length },
+    { id: 'all', label: 'Toutes', count: INITIAL_TX.length },
+    { id: 'in', label: 'Entrants', count: INITIAL_TX.filter(t => t.amount > 0).length },
+    { id: 'out', label: 'Sortants', count: INITIAL_TX.filter(t => t.amount < 0).length },
+    { id: 'subs', label: 'Abonnements', count: INITIAL_TX.filter(t => t.cat === 'Abonnements').length },
   ];
   const list = useMemo(() => {
     if (filter === 'in') return INITIAL_TX.filter(t => t.amount > 0);
     if (filter === 'out') return INITIAL_TX.filter(t => t.amount < 0);
-    if (filter === 'subs') return INITIAL_TX.filter(t => t.cat === 'Subscriptions');
+    if (filter === 'subs') return INITIAL_TX.filter(t => t.cat === 'Abonnements');
     return INITIAL_TX;
   }, [filter]);
 
@@ -258,12 +258,12 @@ function TransactionsCard() {
     <div className="card tx-card">
       <div className="card-head">
         <div>
-          <div className="card-title">Recent activity</div>
-          <div className="card-sub">8 transactions across 3 accounts · Last 7 days</div>
+          <div className="card-title">Activite recente</div>
+          <div className="card-sub">8 transactions sur 3 comptes · 7 derniers jours</div>
         </div>
         <div className="card-head-actions">
-          <button className="chip-btn"><Icon name="filter" size={13} /> Filter</button>
-          <button className="chip-btn"><Icon name="download" size={13} /> Export</button>
+          <button className="chip-btn"><Icon name="filter" size={13} /> Filtrer</button>
+          <button className="chip-btn"><Icon name="download" size={13} /> Exporter</button>
         </div>
       </div>
 
@@ -283,7 +283,7 @@ function TransactionsCard() {
         {list.map(tx => <TransactionRow key={tx.id} tx={tx} />)}
       </div>
 
-      <button className="tx-all">View all activity <Icon name="arrowRight" size={13} /></button>
+      <button className="tx-all">Voir toute l'activite <Icon name="arrowRight" size={13} /></button>
     </div>
   );
 }
@@ -303,12 +303,12 @@ function CashflowCard() {
     <div className="card cashflow-card">
       <div className="card-head">
         <div>
-          <div className="card-title">Cash-flow · This week</div>
+          <div className="card-title">Flux de tresorerie · Cette semaine</div>
           <div className="card-sub">Net <b className="up">+€8,412.30</b></div>
         </div>
         <div className="legend">
-          <span className="legend-item"><span className="legend-dot" style={{ background: TOKENS.teal }} /> In</span>
-          <span className="legend-item"><span className="legend-dot" style={{ background: TOKENS.navy }} /> Out</span>
+          <span className="legend-item"><span className="legend-dot" style={{ background: TOKENS.teal }} /> Entrees</span>
+          <span className="legend-item"><span className="legend-dot" style={{ background: TOKENS.navy }} /> Sorties</span>
         </div>
       </div>
 
@@ -329,19 +329,19 @@ function CashflowCard() {
 
 function UpcomingCard() {
   const items = [
-    { name: 'AWS · invoice', amount: '€2,140.00', when: 'Tomorrow', icon: '◇', tone: 'navy' },
-    { name: 'Payroll · 12 emp.', amount: '€38,200.00', when: 'May 15', icon: '⌥', tone: 'amber' },
-    { name: 'Office lease', amount: '€4,800.00', when: 'May 18', icon: '⌂', tone: 'navy' },
-    { name: 'VAT Q1 · DE', amount: '€11,402.00', when: 'May 31', icon: '%', tone: 'teal' },
+    { name: 'AWS · facture', amount: '€2,140.00', when: 'Demain', icon: '◇', tone: 'navy' },
+    { name: 'Paie · 12 emp.', amount: '€38,200.00', when: '15 mai', icon: '⌥', tone: 'amber' },
+    { name: 'Bail des bureaux', amount: '€4,800.00', when: '18 mai', icon: '⌂', tone: 'navy' },
+    { name: 'TVA T1 · DE', amount: '€11,402.00', when: '31 mai', icon: '%', tone: 'teal' },
   ];
   return (
     <div className="card upcoming-card">
       <div className="card-head">
         <div>
-          <div className="card-title">Upcoming</div>
-          <div className="card-sub">4 scheduled outflows · €56,542.00</div>
+          <div className="card-title">A venir</div>
+          <div className="card-sub">4 sorties planifiees · €56,542.00</div>
         </div>
-        <button className="chip-btn">Schedule</button>
+        <button className="chip-btn">Planifier</button>
       </div>
       <div className="upcoming-list">
         {items.map((it, i) => (
@@ -363,7 +363,7 @@ function DashboardScreen({ onTransferClick, onNavigate, active }) {
   const [visible, setVisible] = useState(true);
 
   return (
-    <div className="dash-root" data-screen-label="02 Dashboard">
+    <div className="dash-root" data-screen-label="02 Tableau de bord">
       <Sidebar active={active} onNavigate={onNavigate} onTransferClick={onTransferClick} />
 
       <div className="dash-main">
@@ -372,19 +372,19 @@ function DashboardScreen({ onTransferClick, onNavigate, active }) {
         <div className="dash-content">
           <div className="page-head">
             <div>
-              <div className="page-eyebrow">Tuesday, May 7 · 09:24 CET</div>
-              <h1 className="page-title">Good morning, Alex.</h1>
-              <p className="page-sub">Cash position is healthy. 3 items need your sign-off today.</p>
+              <div className="page-eyebrow">Mardi 7 mai · 09:24 CET</div>
+              <h1 className="page-title">Bonjour, Alex.</h1>
+              <p className="page-sub">La tresorerie est saine. Trois elements attendent votre validation aujourd'hui.</p>
             </div>
             <div className="page-head-actions">
-              <button className="chip-btn"><Icon name="info" size={13} /> What changed?</button>
-              <button className="chip-btn chip-btn--filled"><Icon name="check" size={13} /> 3 to approve</button>
+              <button className="chip-btn"><Icon name="info" size={13} /> Quoi de neuf ?</button>
+              <button className="chip-btn chip-btn--filled"><Icon name="check" size={13} /> 3 a approuver</button>
             </div>
           </div>
 
           <BalanceHero visible={visible} onToggleVisible={() => setVisible(!visible)} onTransferClick={onTransferClick} />
 
-          <AccountsStrip />
+          <ComptesStrip />
 
           <div className="dash-grid">
             <TransactionsCard />
@@ -399,4 +399,5 @@ function DashboardScreen({ onTransferClick, onNavigate, active }) {
   );
 }
 
-window.DashboardScreen = DashboardScreen;
+export default DashboardScreen;
+
